@@ -13,7 +13,7 @@ import fastifyCors from '@fastify/cors'
 const app = fastify().withTypeProvider<ZodTypeProvider>()
 
 app.register(fastifyCors, {
-  origin: 'https://react-in-orbit.vercel.app/',
+  origin: 'https://react-in-orbit.vercel.app',
 })
 
 app.setValidatorCompiler(validatorCompiler)
