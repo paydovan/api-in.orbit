@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "_version": "20.1.0",
+
+  "compilerOptions": {
+    "lib": ["es2023"],
+    "module": "commonjs", // Ajuste para "commonjs" se estiver usando módulos CommonJS
+    "target": "es2022",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "outDir": "./dist", // Diretório onde os arquivos JavaScript compilados serão gerados
+    "rootDir": "./src" // Diretório raiz dos arquivos TypeScript
+  },
+  "include": ["src/**/*"], // Inclui todos os arquivos .ts no diretório src
+  "exclude": ["node_modules"] // Exclui o diretório node_modules
+}
