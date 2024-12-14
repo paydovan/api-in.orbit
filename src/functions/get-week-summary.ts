@@ -3,10 +3,11 @@ import { db } from '../db'
 import { goalCompletions, goals } from '../db/schema'
 import dayjs from 'dayjs'
 
-export async function getWeekSummary() {
+export async function getWeekSummary(userId: string) {
   const firstDayOfWeek = dayjs().startOf('week').toDate()
   const lastDayOfWeek = dayjs().endOf('week').toDate()
 
+  // Aqui, filtramos os objetivos pela id do usuário
   const goalsCreatedUpToWeek = db.$with('goals_completed_in_week').as(
     db
       .select({
@@ -16,7 +17,12 @@ export async function getWeekSummary() {
         createdAt: goals.createdAt,
       })
       .from(goals)
-      .where(lte(goals.createdAt, lastDayOfWeek))
+      .where(
+        and(
+          eq(goals.userId, userId), // Filtro pelo userId
+          lte(goals.createdAt, lastDayOfWeek)
+        )
+      )
   )
 
   const goalsCompletedInWeek = db.$with('goal_completion_counts').as(
@@ -33,6 +39,7 @@ export async function getWeekSummary() {
       .innerJoin(goals, eq(goals.id, goalCompletions.goalId))
       .where(
         and(
+          eq(goals.userId, userId), // Filtro pelo userId
           gte(goalCompletions.createdAt, firstDayOfWeek),
           lte(goalCompletions.createdAt, lastDayOfWeek)
         )

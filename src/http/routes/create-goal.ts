@@ -6,16 +6,19 @@ export const createGoalRoute: FastifyPluginAsyncZod = async app => {
   app.post(
     '/goals',
     {
+      preHandler: [app.authenticate], // Usa o middleware de autenticação
       schema: {
         body: z.object({
+          userId: z.string(),
           title: z.string(),
           desiredWeeklyFrequency: z.number().int().min(1).max(7),
         }),
       },
     },
     async request => {
-      const { title, desiredWeeklyFrequency } = request.body
+      const { userId, title, desiredWeeklyFrequency } = request.body
       await createGoal({
+        userId,
         title,
         desiredWeeklyFrequency,
       })

@@ -6,7 +6,7 @@ import { and, count, eq, gte, lte, sql } from 'drizzle-orm'
 
 dayjs.extend(weekOfYear)
 
-export async function getWeekPendingGoals() {
+export async function getWeekPendingGoals(userId: string) {
   const firstDayOfWeek = dayjs().startOf('week').toDate()
   const lastDayOfWeek = dayjs().endOf('week').toDate()
 
@@ -19,7 +19,12 @@ export async function getWeekPendingGoals() {
         createdAt: goals.createdAt,
       })
       .from(goals)
-      .where(lte(goals.createdAt, lastDayOfWeek))
+      .where(
+        and(
+          lte(goals.createdAt, lastDayOfWeek),
+          eq(goals.userId, userId) // Filtra as metas do usuário
+        )
+      )
   )
 
   const goalCompletionCounts = db.$with('goal_completion_counts').as(

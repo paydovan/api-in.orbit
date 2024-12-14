@@ -13,6 +13,6 @@
     "outDir": "./dist", // Diretório onde os arquivos JavaScript compilados serão gerados
     "rootDir": "./src" // Diretório raiz dos arquivos TypeScript
   },
-  "include": ["src/**/*"], // Inclui todos os arquivos .ts no diretório src
+  "include": ["src/**/*", "fastify.d.ts"], // Inclui todos os arquivos .ts no diretório src
   "exclude": ["node_modules"] // Exclui o diretório node_modules
 }

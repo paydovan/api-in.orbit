@@ -6,6 +6,7 @@ export const createCompletionRoute: FastifyPluginAsyncZod = async app => {
   app.post(
     '/completions',
     {
+      preHandler: [app.authenticate], // Usa o middleware de autenticação
       schema: {
         body: z.object({
           goalId: z.string(),
